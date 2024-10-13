@@ -1,0 +1,17 @@
+{
+    "name": "scandiweb/products",
+    "description": "assessment test from Scandiweb",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Scandiweb\\Products\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "YoussefIbraheem",
+            "email": "youssefm.muhammed@gmail.com"
+        }
+    ],
+    "require": {}
+}
