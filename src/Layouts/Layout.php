@@ -1,8 +1,15 @@
 <?php
 
-namespace App\Layouts; 
+namespace App\Layouts;
 
-interface Layout
+abstract class Layout
 {
-    public static function render();
+    protected static function renderTemplate($template, $data = [])
+    {
+        extract($data); 
+        require __DIR__ . "/views/{$template}.view.php";
+    }
+
+
+    public abstract function render();
 }
