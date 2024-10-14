@@ -10,9 +10,13 @@ use App\Layouts\Navbar;
 
 (new Navbar(['About'=>'https://google.com']))->render();
 
-for($i = 0 ; $i <= 5 ;$i++)
-{
-(New Card($i,"title{$i}","body{$i}"))->render();
+echo "<div class='container mt-4'>
+        <div class='row'>";
+
+for($i = 0 ; $i <= 5 ; $i++) {
+    (new Card($i,"Title {$i}", "Body {$i}"))->render();
 }
+
+echo "</div></div>";
 
 (new Footer)->render();
