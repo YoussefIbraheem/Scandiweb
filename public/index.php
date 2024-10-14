@@ -8,6 +8,6 @@ use App\Layouts\Navbar;
 
 Header::render();
 Navbar::render(['About'=>"https://google.com"],['Contact'=>"https://youtube.com"]);
-Card::render();
+Card::render(1,"Hello World","Lorem Ipsum");
 Footer::render();
 ?>

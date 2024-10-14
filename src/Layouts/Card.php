@@ -4,15 +4,21 @@ use App\Layouts\Layout;
 
 class Card implements Layout
 {
-    public static function render()
+    public static function render(...$args)
     {
-        echo '<div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+
+      print_r($args);
+
+      $id = $args[0];
+      $title = $args[1];
+      $body = $args[2];
+      
+        echo "<div class='card' style='width: 18rem;'>
+                <div class='card-body'>
+                  <h5 class='card-title'>{$title}</h5>
+                  <p class='card-text'>{$body}</p>
+                  <a href='#' class='btn btn-primary'>Go somewhere</a>
                 </div>
-              </div>';
+              </div>";
     }
 }

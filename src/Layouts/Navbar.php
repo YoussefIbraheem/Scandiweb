@@ -6,7 +6,7 @@ class Navbar implements Component
     public static function render(...$args)
     {
         // The argument is an array of menu items where each item has 'label' and 'link'
-        $menuItems = $args ;
+        $menuItems = $args ?? 'Not Found' ;
 
     
         $menu = '<nav class="navbar navbar-expand-lg navbar-light bg-light">
