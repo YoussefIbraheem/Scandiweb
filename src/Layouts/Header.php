@@ -17,6 +17,6 @@ class Header extends Layout
 
     public function render()
     {
-        self::renderTemplate('header', $this->data);
+        self::renderTemplate('views/header', $this->data);
     }
 }
