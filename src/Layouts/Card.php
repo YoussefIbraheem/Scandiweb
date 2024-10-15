@@ -17,6 +17,6 @@ class Card extends Layout
 
     public function render()
     {
-        self::renderTemplate('card', $this->data);
+        self::renderTemplate('views/card', $this->data);
     }
 }
