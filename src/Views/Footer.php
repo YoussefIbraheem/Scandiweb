@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Layouts;
+namespace App\Views;
 
-use App\Layouts\Layout;
+use App\Views\Layout;
 
 class Footer extends Layout
 {

@@ -1,6 +1,8 @@
-<?php 
-namespace App\Layouts;
-use App\Layouts\Card;
+<?php
+
+namespace App\Views;
+
+use App\Views\Card;
 
 
 class ProductList extends Layout
@@ -9,7 +11,7 @@ class ProductList extends Layout
 
     public function __construct($data)
     {
-        $this->data = array_map('self::convertToCardObject',$data);
+        $this->data = array_map('self::convertToCardObject', $data);
     }
 
     public function render()
@@ -19,11 +21,6 @@ class ProductList extends Layout
 
     private static function convertToCardObject($product)
     {
-        return (new Card($product['id'],$product['title'],$product['body']));
+        return (new Card($product['id'], $product['title'], $product['body']));
     }
-
 }
-
-
-
-?>

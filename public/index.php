@@ -1,11 +1,11 @@
 <?php
+
+use App\Views\Footer;
+use App\Views\Header;
+use App\Views\Navbar;
+use App\Views\ProductList;
 require_once __DIR__ . '../../vendor/autoload.php';
 
-use App\Layouts\Card;
-use App\Layouts\Footer;
-use App\Layouts\Header;
-use App\Layouts\Navbar;
-use App\Layouts\ProductList;
 
 $products = [
     ['id' => 1, 'title' => 'Product 1', 'body' => 'Description for Product 1'],
@@ -21,7 +21,6 @@ $products = [
 
 
 (new Header('Scandiweb product List 2'))->render();
-
 (new Navbar(['About'=>'https://google.com']))->render();
 (new ProductList($products))->render();
 (new Footer)->render();

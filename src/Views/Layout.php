@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Layouts;
+namespace App\Views;
 
 abstract class Layout
 {
@@ -8,8 +8,8 @@ abstract class Layout
     {
         $loader = new \Twig\Loader\FilesystemLoader('/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load($template.'.html');
-        echo $template->render(['data'=>$data]);
+        $template = $twig->load($template . '.html');
+        echo $template->render(['data' => $data]);
     }
 
 
