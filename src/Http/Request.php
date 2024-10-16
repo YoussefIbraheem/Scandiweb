@@ -17,4 +17,9 @@ class Request
     {
         return $_REQUEST;
     }
+
+    public function getPath()
+    {
+        return parse_url($_SERVER['REQUEST_URI'] ?? '/') ;
+    }
 }

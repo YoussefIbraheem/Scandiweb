@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Request;
 use App\Views\Footer;
 use App\Views\Header;
 use App\Views\Navbar;
 use App\Views\ProductList;
-require_once __DIR__ . '../../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 
 $products = [
@@ -21,6 +22,5 @@ $products = [
 
 
 (new Header('Scandiweb product List 2'))->render();
-(new Navbar(['About'=>'https://google.com']))->render();
-(new ProductList($products))->render();
+print_r ((new Request)->getPath());
 (new Footer)->render();

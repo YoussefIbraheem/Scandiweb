@@ -1,7 +1,4 @@
-# Enable URL rewriting
-RewriteEngine On
-
-# Redirect all requests to index.php except for actual files
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [L,QSA]
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
