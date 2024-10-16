@@ -6,9 +6,9 @@ abstract class Layout
 {
     protected static function renderTemplate($template, $data = [])
     {
-        $loader = new \Twig\Loader\FilesystemLoader('/');
+        $loader = new \Twig\Loader\FilesystemLoader(__DIR__);
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load($template . '.html');
+        $template = $twig->load('html/' . $template . '.html');
         echo $template->render(['data' => $data]);
     }
 

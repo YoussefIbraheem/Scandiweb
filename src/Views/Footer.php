@@ -8,6 +8,6 @@ class Footer extends Layout
 {
     public function render()
     {
-        self::renderTemplate('views/footer');
+        self::renderTemplate('footer');
     }
 }

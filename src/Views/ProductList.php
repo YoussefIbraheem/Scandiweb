@@ -16,7 +16,7 @@ class ProductList extends Layout
 
     public function render()
     {
-        self::renderTemplate('views/product_list', $this->data);
+        self::renderTemplate('product_list', $this->data);
     }
 
     private static function convertToCardObject($product)

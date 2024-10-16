@@ -15,6 +15,6 @@ class Navbar extends Layout
 
     public function render()
     {
-        self::renderTemplate('views/navbar', $this->menuItems);
+        self::renderTemplate('navbar', $this->menuItems);
     }
 }
