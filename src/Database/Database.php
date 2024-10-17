@@ -1,10 +1,11 @@
 <?php 
 namespace App\Database;
 
+use App\Patterns\Singleton;
 use PDO;
 use PDOException;
 
-class Database
+class Database extends Singleton
 {
     private $host = 'localhost';
     private $dbName = 'scandiweb-products';
@@ -16,7 +17,17 @@ class Database
     public function __construct()
     {
         $this->connect();
-    }App\public\layouts;
+    }
+
+    private function connect()
+    {
+        try {
+            $this->connection = new PDO("mysql:host={$this->host};dbname={$this->dbName}", $this->username, $this->password);
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
+    }
 
     public function getConnection()
     {
