@@ -7,7 +7,7 @@ use App\Views\Card;
 
 class ProductList extends Layout
 {
-    private array $data;
+    private array $data = [];
 
     public function __construct($data)
     {
@@ -16,7 +16,7 @@ class ProductList extends Layout
 
     public function render()
     {
-        self::renderTemplate('product_list', $this->data);
+        return self::renderTemplate('product_list', $this->data);
     }
 
     private static function convertToCardObject($product)

@@ -1,26 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-use App\Http\Request;
 use App\Views\Footer;
 use App\Views\Header;
-use App\Views\Navbar;
-use App\Views\ProductList;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
+$router = require_once __DIR__ . '/../src/Routes/web.php';
 
-$products = [
-    ['id' => 1, 'title' => 'Product 1', 'body' => 'Description for Product 1'],
-    ['id' => 2, 'title' => 'Product 2', 'body' => 'Description for Product 2'],
-    ['id' => 3, 'title' => 'Product 3', 'body' => 'Description for Product 3'],
-    ['id' => 1, 'title' => 'Product 1', 'body' => 'Description for Product 1'],
-    ['id' => 2, 'title' => 'Product 2', 'body' => 'Description for Product 2'],
-    ['id' => 3, 'title' => 'Product 3', 'body' => 'Description for Product 3'],
-    ['id' => 1, 'title' => 'Product 1', 'body' => 'Description for Product 1'],
-    ['id' => 2, 'title' => 'Product 2', 'body' => 'Description for Product 2'],
-    ['id' => 3, 'title' => 'Product 3', 'body' => 'Description for Product 3'],
-];
+$uri = '/Scandiweb';
+$_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], strlen($uri));
 
+$request = ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
 
-(new Header('Scandiweb product List 2'))->render();
-print_r ((new Request)->getPath());
-(new Footer)->render();
+$response = $router->dispatch($request);
+
+(new SapiEmitter())->emit($response);
+
