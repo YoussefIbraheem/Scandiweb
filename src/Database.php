@@ -1,7 +1,6 @@
 <?php 
-namespace App\Database;
+namespace App;
 
-use App\Patterns\Singleton;
 use PDO;
 use PDOException;
 

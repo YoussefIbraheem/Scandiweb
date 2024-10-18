@@ -1,5 +1,5 @@
 <?php 
- namespace App\Patterns;
+ namespace App;
 
 class Singleton
 {
@@ -14,7 +14,7 @@ class Singleton
         throw new \Exception("Cannot unserialize singleton");
     }
 
-    public static function getInstances()
+    public static function getInstance()
     {
         $subclass = static::class;
 
