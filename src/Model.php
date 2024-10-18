@@ -3,10 +3,12 @@
 namespace App;
 use PDO;
 use App\Database;
+use Faker\Factory;
 
 abstract class Model
 {
     protected $db;
+    protected static $faker = Factory::create();
 
     public function __construct()
     {

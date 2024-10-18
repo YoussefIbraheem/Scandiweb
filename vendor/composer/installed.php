@@ -3,13 +3,22 @@
         'name' => 'scandiweb/products',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '80e88649c9a18a4a52a3587327361a2ccc07e7b9',
+        'reference' => '70f4105a696b5d0dbb1455ba42f07d4ba73ab80b',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'fakerphp/faker' => array(
+            'pretty_version' => 'v1.23.1',
+            'version' => '1.23.1.0',
+            'reference' => 'bfb4fe148adbf78eff521199619b93a52ae3554b',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../fakerphp/faker',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'laminas/laminas-diactoros' => array(
             'pretty_version' => '3.5.0',
             'version' => '3.5.0.0',
@@ -157,7 +166,7 @@
         'scandiweb/products' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '80e88649c9a18a4a52a3587327361a2ccc07e7b9',
+            'reference' => '70f4105a696b5d0dbb1455ba42f07d4ba73ab80b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
