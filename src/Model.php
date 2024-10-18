@@ -40,6 +40,20 @@ abstract class Model
         return null;
     }
 
+    public function hasMany(string $relatedModel, string $foreignKey, string $localKey = 'id') {
+        $related = new $relatedModel;
+        $db = Database::getInstance();
+        $query = 'SELECT * FROM ' . $related->getTable() . ' WHERE ' . $foreignKey . ' = :localKey';
+        return $db->query($query, ['localKey' => $this->{$localKey}])->fetchAll();
+    }
+
+    public function belongsTo(string $relatedModel, string $foreignKey, string $ownerKey = 'id') {
+        $related = new $relatedModel;
+        $db = Database::getInstance();
+        $query = 'SELECT * FROM ' . $related->getTable() . ' WHERE ' . $ownerKey . ' = :foreignKey';
+        return $db->query($query, ['foreignKey' => $this->{$foreignKey}])->fetch();
+    }
+
     // Abstract method to be implemented by child models to create a new record
     protected abstract static function create(array $data);
 }
