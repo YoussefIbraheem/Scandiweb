@@ -21,6 +21,12 @@ class ProductList extends Layout
 
     private static function convertToCardObject($product)
     {
-        return (new Card($product['id'], $product['title'], $product['body']));
+        return (new Card(
+        id: $product['id'], 
+        name: $product['name'], 
+        sku: $product['sku'], 
+        price: $product['price'], 
+        amount: $product['amount'], 
+        type_id: $product['type_id']));
     }
 }

@@ -8,8 +8,7 @@ use Faker\Factory;
 abstract class Model
 {
     protected $db;
-    protected static $faker = Factory::create();
-
+    
     public function __construct()
     {
         $this->db = Database::getInstance()->getConnection();
@@ -23,9 +22,16 @@ abstract class Model
     // This method should be implemented by child models
     public static abstract function fromArray(array $dbRecord): Model;
 
+    public static function getAll(): array {
+        $db = Database::getInstance()->getConnection();
+        $query = $db->query('SELECT * FROM ' . static::getTable());
+
+        return $query ? $query->fetchAll(PDO::FETCH_ASSOC) : [];
+    }
+    
     // This method will return the name of the table
     protected static function getTable(): string {
-        return strtolower(static::class) . 's';
+        return substr(strtolower(static::class),11)  . 's';
     }
 
     // A simple find method to retrieve a record by its primary key

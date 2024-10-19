@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Model;
 use App\Database;
+use App\Logger;
+use Faker\Factory;
 
 class Product extends Model
 {
@@ -11,6 +13,8 @@ class Product extends Model
     private int $id;
     private string $sku;
     private string $name;
+    private float $price;
+    private string $amount;
     private int $type_id;
 
     public static function fromArray(array $dbRecord): Model
@@ -19,6 +23,8 @@ class Product extends Model
         $product->id = $dbRecord['id'];
         $product->sku = $dbRecord['sku'];
         $product->name = $dbRecord['name'];
+        $product->price = $dbRecord['price'];
+        $product->amount = $dbRecord['amount'];
         $product->type_id = $dbRecord['type_id'];
 
         return $product;
@@ -27,10 +33,12 @@ class Product extends Model
     public static function create(array $data)
     {
         $db = Database::getInstance();
-        $sql = 'INSERT INTO ' . static::getTable() . ' (title, body) VALUES (:title, :body)';
+        $sql = 'INSERT INTO ' . static::getTable() . ' (sku, name, price, amount, type_id) VALUES (:sku, :name, :price, :amount, :type_id)';
         $db->query($sql, [
             'sku' => $data['sku'],
             'name' => $data['name'],
+            'price' => $data['price'],
+            'amount' => $data['amount'],
             'type_id' => $data['type_id']
         ]);
 
@@ -43,28 +51,28 @@ class Product extends Model
         $this->belongsTo(Type::class, 'type_id');
     }
 
-
-    protected static function factory()
-    {
-        return [
-            'sku' => strtoupper(parent::$faker->bothify('??-#####')),
-            'name' => parent::$faker->name(),
-            'type_id' => parent::$faker->randomDigit()
-        ];
-    }
-
-
-
     public static function seed()
     {
 
-        $products = self::factory();
-        foreach ($products as $product) {
+        $types_empty = empty(Type::getAll());
+
+        if($types_empty)
+        {
+            Type::seed();
+        }
+
+        $products = require __DIR__ . '/../../database/data.php';
+
+        foreach ($products['products'] as $product) {
             self::create([
                 'sku' => $product['sku'],
                 'name' => $product['name'],
+                'price' => $product['price'],
+                'amount' => $product['amount'],
                 'type_id' => $product['type_id'],
             ]);
         };
+
+        Logger::getInstance()->log("Table products has been seeded!");
     }
 }

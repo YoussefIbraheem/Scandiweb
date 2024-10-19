@@ -7,9 +7,9 @@ use PDOException;
 class Database extends Singleton
 {
     private $host = 'localhost';
-    private $dbName = 'scandiweb-products';
+    private $dbName = 'scandiweb-db';
     private $username = 'youssef';
-    private $password = 'password123';
+    private $password = 'password';
 
     private $connection;
 
@@ -20,12 +20,30 @@ class Database extends Singleton
 
     private function connect()
     {
+
+        $logger = Logger::getInstance();
+
         try {
+            
+            $this->connection = new PDO("mysql:host={$this->host}", $this->username, $this->password);
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            $result = $this->connection->query("SHOW DATABASES LIKE '{$this->dbName}'");
+
+            if ($result->rowCount() === 0) {
+
+                $sql = file_get_contents('../database/scandiweb-db.sql');
+                
+                $this->connection->exec($sql);
+
+                $logger->log("Database has been created.");
+            }
+
             $this->connection = new PDO("mysql:host={$this->host};dbname={$this->dbName}", $this->username, $this->password);
-            $sql = file_get_contents('file.sql');
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
+
+            $logger->log("Connection failed: " . $e->getMessage());
         }
     }
 
@@ -41,6 +59,3 @@ class Database extends Singleton
         return $stmt;
     }
 }
-
-
-?>
