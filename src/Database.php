@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App;
 
 use PDO;
@@ -24,16 +25,16 @@ class Database extends Singleton
         $logger = Logger::getInstance();
 
         try {
-            
+
             $this->connection = new PDO("mysql:host={$this->host}", $this->username, $this->password);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
+
             $result = $this->connection->query("SHOW DATABASES LIKE '{$this->dbName}'");
 
             if ($result->rowCount() === 0) {
 
                 $sql = file_get_contents('../database/scandiweb-db.sql');
-                
+
                 $this->connection->exec($sql);
 
                 $logger->log("Database has been created.");

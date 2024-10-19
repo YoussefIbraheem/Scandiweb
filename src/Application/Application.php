@@ -2,7 +2,7 @@
 
 namespace App\Application;
 
-use App\Routers\Router;
+use League\Route\Router;
 
 class Application
 {
@@ -12,10 +12,5 @@ class Application
     public function __construct()
     {
         $this->router = new Router;
-    }
-
-    public function run()
-    {
-        $this->router->resolve();
     }
 }

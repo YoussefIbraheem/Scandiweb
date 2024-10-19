@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 use PDO;
 use App\Database;
 use Faker\Factory;
@@ -8,30 +9,33 @@ use Faker\Factory;
 abstract class Model
 {
     protected $db;
-    
+
     public function __construct()
     {
         $this->db = Database::getInstance()->getConnection();
     }
 
     // This method will return the primary key name, defaulting to 'id'
-    public static function getKeyName(): string {
+    public static function getKeyName(): string
+    {
         return 'id';
     }
 
     // This method should be implemented by child models
     public static abstract function fromArray(array $dbRecord): Model;
 
-    public static function getAll(): array {
+    public static function getAll(): array
+    {
         $db = Database::getInstance()->getConnection();
         $query = $db->query('SELECT * FROM ' . static::getTable());
 
         return $query ? $query->fetchAll(PDO::FETCH_ASSOC) : [];
     }
-    
+
     // This method will return the name of the table
-    protected static function getTable(): string {
-        return substr(strtolower(static::class),11)  . 's';
+    protected static function getTable(): string
+    {
+        return substr(strtolower(static::class), 11)  . 's';
     }
 
     // A simple find method to retrieve a record by its primary key
@@ -48,14 +52,16 @@ abstract class Model
         return null;
     }
 
-    public function hasMany(string $relatedModel, string $foreignKey, string $localKey = 'id') {
+    public function hasMany(string $relatedModel, string $foreignKey, string $localKey = 'id')
+    {
         $related = new $relatedModel;
         $db = Database::getInstance();
         $query = 'SELECT * FROM ' . $related->getTable() . ' WHERE ' . $foreignKey . ' = :localKey';
         return $db->query($query, ['localKey' => $this->{$localKey}])->fetchAll();
     }
 
-    public function belongsTo(string $relatedModel, string $foreignKey, string $ownerKey = 'id') {
+    public function belongsTo(string $relatedModel, string $foreignKey, string $ownerKey = 'id')
+    {
         $related = new $relatedModel;
         $db = Database::getInstance();
         $query = 'SELECT * FROM ' . $related->getTable() . ' WHERE ' . $ownerKey . ' = :foreignKey';
