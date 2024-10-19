@@ -7,11 +7,7 @@ $router = new Router();
 
 // Define routes
 $router->get('/', [ProductController::class, 'all']);
-
-
-
-
-
+$router->get('/create',[ProductController::class,'getProductsFormFields']);
 
 //END
 

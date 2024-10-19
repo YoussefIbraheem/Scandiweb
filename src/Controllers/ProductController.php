@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Logger;
-use App\Models\Type;
-use Twig\Environment;
 use App\Models\Product;
+use App\Views\ProductForm;
 use App\Views\ProductList;
 use Laminas\Diactoros\Response;
-use Twig\Loader\FilesystemLoader;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -34,4 +32,15 @@ class ProductController
 
       return $response;
    }
+
+
+   public function getProductsFormFields(ServerRequestInterface $request): ResponseInterface
+   {
+        $response = new Response;
+        $html = (new ProductForm)->render();
+        $response->getBody()->write($html);
+        return $response;
+    }
+
+
 }
