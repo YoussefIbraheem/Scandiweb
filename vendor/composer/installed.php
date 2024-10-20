@@ -3,7 +3,7 @@
         'name' => 'scandiweb/products',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '98fcbd51296602c1a8bfa8a55c388ee9e095e954',
+        'reference' => 'e169950ad8c97bab822909a36d028677b29c190b',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -165,6 +165,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'psr/log' => array(
+            'pretty_version' => '3.0.2',
+            'version' => '3.0.2.0',
+            'reference' => 'f16e1d5863e37f8d8c2a01719f5b34baa2b714d3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../psr/log',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'psr/simple-cache' => array(
             'pretty_version' => '1.0.1',
             'version' => '1.0.1.0',
@@ -186,7 +195,7 @@
         'scandiweb/products' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '98fcbd51296602c1a8bfa8a55c388ee9e095e954',
+            'reference' => 'e169950ad8c97bab822909a36d028677b29c190b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

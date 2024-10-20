@@ -84,6 +84,6 @@ class Product extends Model
             ]);
         };
 
-        Logger::getInstance()->log(Logger::INFO,"Table products has been seeded!");
+        Logger::getInstance()->info("Table products has been seeded!");
     }
 }

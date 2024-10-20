@@ -20,6 +20,7 @@
         "laminas/laminas-httphandlerrunner": "^2.10",
         "league/container": "^4.2",
         "fakerphp/faker": "^1.23",
-        "guzzlehttp/psr7": "^2.7"
+        "guzzlehttp/psr7": "^2.7",
+        "psr/log": "^3.0"
     }
 }

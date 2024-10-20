@@ -24,7 +24,7 @@ class ProductController
    {
       $this->productModel = $productModel;
       $this->typeModel = $typeModel;
-      $this->logger = $logger;
+      $this->logger = $logger::getInstance();
       $this->response = $response;
    }
 
@@ -35,7 +35,7 @@ class ProductController
       if (empty($productData)) {
          $this->productModel->seed();
          $productData = $this->productModel->getAll();
-         $this->logger->log(Logger::INFO,"Seeded products count: " . count($productData));
+         $this->logger->info("Seeded products count: " . count($productData));
       }
 
       $html = (new ProductList($productData))->render();
@@ -50,7 +50,7 @@ class ProductController
       if (empty($typeData)) {
          $this->typeModel->seed();
          $typeData = $this->typeModel->getAll();
-         $this->logger->log(Logger::INFO, "Seeded product types count: " . count($typeData));
+         $this->logger->info("Seeded product types count: " . count($typeData));
       }
 
       $html = (new ProductForm($typeData))->render();
@@ -76,7 +76,7 @@ class ProductController
             'amount' => $processedData[strtolower($selectedType['attribute_value'])]
          ]);
 
-         $this->logger->log(Logger::INFO, 'Processed Form Data: ' . print_r($processedData, true));
+         $this->logger->info('Processed Form Data: ' . print_r($processedData, true));
 
          return $this->response
             ->withHeader('Location', '/Scandiweb')
