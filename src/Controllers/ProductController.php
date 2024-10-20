@@ -9,7 +9,6 @@ use App\Models\Product;
 use App\Models\Type;
 use App\Views\ProductForm;
 use App\Views\ProductList;
-use Laminas\Diactoros\Request;
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -63,23 +62,34 @@ class ProductController
    }
 
 
-   public function create(ServerRequestInterface $request): ResponseInterface
+   public function create(ServerRequestInterface $request)
    {
 
       $data = $request->getParsedBody();
 
-      $selectedType = $this->typeModel->find((int)$data['product_type']);
+      $selectedType = $this->typeModel->find((int)$data['product_type'])->toArray();
 
-      $productTypeClass = "App\\ProductTypes\\" . ucfirst(strtolower($selectedType->toArray()['name']));
+      $productTypeClass = "App\\ProductTypes\\" . ucfirst(strtolower($selectedType['name']));
+
+      $response = new Response();
 
       if (class_exists($productTypeClass)) {
          $productTypeInstance = new $productTypeClass();
          $processedData = $productTypeInstance->processData($data);
 
+         $this->productModel->create([
+            'sku' => $processedData['sku'],
+            'name' => $processedData['name'],
+            'price' => $processedData['price'],
+            'type_id' => $processedData['product_type'],
+            'amount' => $processedData[strtolower($selectedType['attribute_value'])]
+         ]);
+
          Logger::getInstance()->log('Processed Form Data: ' . print_r($processedData, true));
 
-         $response = new Response();
-         $response->getBody()->write('Processed Data: ' . json_encode($processedData));
+         $response
+            ->withHeader('Location', '/')
+            ->withStatus(302);
 
          return $response;
       }
