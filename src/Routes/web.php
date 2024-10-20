@@ -6,7 +6,15 @@ use App\Controllers\ProductController;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-$router = new Router();
+$container = new League\Container\Container();
+
+$container->delegate(new League\Container\ReflectionContainer());
+
+$container->addServiceProvider(new App\Providers\HttpServiceProvider());
+
+$strategy = (new League\Route\Strategy\ApplicationStrategy())->setContainer($container);
+
+$router = (new League\Route\Router())->setStrategy($strategy);
 
 // Define routes
 $router->setHost($_SERVER['HTTP_HOST']);
