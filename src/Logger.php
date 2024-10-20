@@ -66,7 +66,13 @@ class Logger extends Singleton implements LoggerInterface
         $timestamp = date('Y-m-d H:i:s');
         $formattedMessage = "[{$timestamp}] - [{$level}] - {$message}\n";
         
-        error_log($formattedMessage, 3, $this->logFilePath);
+        if (!empty($context)) {
+            $formattedMessage .= ' ' . json_encode($context);
+        }
+    
+        $formattedMessage .= "\n";
+        
+        @error_log($formattedMessage, 3, $this->logFilePath);
     }
 
     // Interpolates context values into the message placeholders.

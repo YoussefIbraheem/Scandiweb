@@ -22,6 +22,7 @@ $strategy = (new ApplicationStrategy())->setContainer($container);
 // Initialize the router with the strategy
 $router = (new Router())->setStrategy($strategy);
 
+$router->setHost($_SERVER['HTTP_HOST']);
 // Define routes, now resolving controllers via the container
 $router->get('/', [ProductController::class, 'all']);
 $router->get('/create', [ProductController::class, 'getProductsFormFields']);
