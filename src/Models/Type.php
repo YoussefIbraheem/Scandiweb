@@ -65,6 +65,6 @@ class Type extends Model
                 'measure_unit' => $type['measure_unit']
             ]);
         }
-        Logger::getInstance()->log("Table types has been seeded!");
+        Logger::getInstance()->log(Logger::INFO,"Table types has been seeded!");
     }
 }

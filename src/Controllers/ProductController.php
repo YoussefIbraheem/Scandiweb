@@ -54,7 +54,7 @@ class ProductController
       if (empty($typeData)) {
          $this->typeModel->seed();
          $typeData = $this->typeModel->getAll();
-         Logger::getInstance()->log("Seeded products count: " . count($typeData));
+         Logger::getInstance()->log(Logger::INFO,"Seeded products count: " . count($typeData));
       }
       $html = (new ProductForm($typeData))->render();
       $this->response->getBody()->write($html);
@@ -85,7 +85,7 @@ class ProductController
             'amount' => $processedData[strtolower($selectedType['attribute_value'])]
          ]);
 
-         Logger::getInstance()->log('Processed Form Data: ' . print_r($processedData, true));
+         Logger::getInstance()->log(Logger::INFO,'Processed Form Data: ' . print_r($processedData, true));
 
          $response
             ->withHeader('Location', '/')
