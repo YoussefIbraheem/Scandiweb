@@ -6,41 +6,63 @@ namespace App\Controllers;
 
 use App\Logger;
 use App\Models\Product;
+use App\Models\Type;
 use App\Views\ProductForm;
 use App\Views\ProductList;
+use Laminas\Diactoros\Request;
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ProductController
 {
-   public function all(ServerRequestInterface $request): ResponseInterface
-   {
-      $response = new Response;
 
-      $product_model = new Product;
-      $product_data = $product_model->getAll();
+   private Product $product_model;
+   private Type $type_model;
+   private Response $response;
+   
+   public function __construct()
+   {
+      $this->product_model = new Product;
+      $this->type_model = new Type;
+      $this->response = new Response;
+   }
+
+
+   public function all(): ResponseInterface
+   {
+      
+
+      $product_data = $this->product_model->getAll();
 
       if (empty($product_data)) {
-         $product_model->seed();
-         $product_data = $product_model->getAll();
+         $this->product_model->seed();
+         $product_data = $this->product_model->getAll();
          Logger::getInstance()->log("Seeded products count: " . count($product_data));
       }
 
       $html = (new ProductList($product_data))->render();
-      $response->getBody()->write($html);
+      $this->response->getBody()->write($html);
 
-      return $response;
+      return $this->response;
    }
 
 
-   public function getProductsFormFields(ServerRequestInterface $request): ResponseInterface
+   public function getProductsFormFields(): ResponseInterface
    {
-        $response = new Response;
-        $html = (new ProductForm)->render();
-        $response->getBody()->write($html);
-        return $response;
+        $this->type_model = new Type;
+        $type_data = $this->type_model->getAll();
+        if(empty($type_data))
+        {
+         $this->type_model->seed();
+         $type_data = $this->type_model->getAll();
+         Logger::getInstance()->log("Seeded products count: " . count($type_data));
+        }
+        $html = (new ProductForm($type_data))->render();
+        $this->response->getBody()->write($html);
+        return $this->response;
     }
+
 
 
 }
