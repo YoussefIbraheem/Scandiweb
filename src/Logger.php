@@ -4,6 +4,7 @@ namespace App;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Stringable;
 
 class Logger extends Singleton implements LoggerInterface
 {
@@ -18,49 +19,48 @@ class Logger extends Singleton implements LoggerInterface
         }
     }
 
-    // PSR-3 required methods for each log level
-    public function emergency($message, array $context = [])
+    public function emergency(Stringable|string $message, array $context = []): void
     {
         $this->log(LogLevel::EMERGENCY, $message, $context);
     }
 
-    public function alert($message, array $context = [])
+    public function alert(Stringable|string $message, array $context = []): void
     {
         $this->log(LogLevel::ALERT, $message, $context);
     }
 
-    public function critical($message, array $context = [])
+    public function critical(Stringable|string $message, array $context = []): void
     {
         $this->log(LogLevel::CRITICAL, $message, $context);
     }
 
-    public function error($message, array $context = [])
+    public function error(Stringable|string $message, array $context = []): void
     {
         $this->log(LogLevel::ERROR, $message, $context);
     }
 
-    public function warning($message, array $context = [])
+    public function warning(Stringable|string $message, array $context = []): void
     {
         $this->log(LogLevel::WARNING, $message, $context);
     }
 
-    public function notice($message, array $context = [])
+    public function notice(Stringable|string $message, array $context = []): void
     {
         $this->log(LogLevel::NOTICE, $message, $context);
     }
 
-    public function info($message, array $context = [])
+    public function info(Stringable|string $message, array $context = []): void
     {
         $this->log(LogLevel::INFO, $message, $context);
     }
 
-    public function debug($message, array $context = [])
+    public function debug(Stringable|string $message, array $context = []): void
     {
         $this->log(LogLevel::DEBUG, $message, $context);
     }
 
     // PSR-3 log method that accepts level and handles context interpolation
-    public function log($level, $message, array $context = [])
+    public function log($level, Stringable|string $message, array $context = []): void
     {
         $message = $this->interpolate($message, $context);
         $timestamp = date('Y-m-d H:i:s');
@@ -70,7 +70,7 @@ class Logger extends Singleton implements LoggerInterface
     }
 
     // Interpolates context values into the message placeholders.
-    private function interpolate($message, array $context = [])
+    private function interpolate(Stringable|string $message, array $context = []): string
     {
         // Build a replacement array with braces around context keys.
         $replace = [];
