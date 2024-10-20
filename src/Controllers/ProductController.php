@@ -15,29 +15,27 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ProductController
 {
-
    private Product $productModel;
    private Type $typeModel;
+   private Logger $logger;
    private Response $response;
 
-   public function __construct()
+   public function __construct(Product $productModel, Type $typeModel, Logger $logger, Response $response)
    {
-      $this->productModel = new Product;
-      $this->typeModel = new Type;
-      $this->response = new Response;
+      $this->productModel = $productModel;
+      $this->typeModel = $typeModel;
+      $this->logger = $logger;
+      $this->response = $response;
    }
-
 
    public function all(): ResponseInterface
    {
-
-
       $productData = $this->productModel->getAll();
 
       if (empty($productData)) {
          $this->productModel->seed();
          $productData = $this->productModel->getAll();
-         Logger::getInstance()->log("Seeded products count: " . count($productData));
+         $this->logger->log(Logger::INFO,"Seeded products count: " . count($productData));
       }
 
       $html = (new ProductList($productData))->render();
@@ -46,32 +44,25 @@ class ProductController
       return $this->response;
    }
 
-
    public function getProductsFormFields(): ResponseInterface
    {
-      $this->typeModel = new Type;
       $typeData = $this->typeModel->getAll();
       if (empty($typeData)) {
          $this->typeModel->seed();
          $typeData = $this->typeModel->getAll();
-         Logger::getInstance()->log(Logger::INFO,"Seeded products count: " . count($typeData));
+         $this->logger->log(Logger::INFO, "Seeded product types count: " . count($typeData));
       }
+
       $html = (new ProductForm($typeData))->render();
       $this->response->getBody()->write($html);
       return $this->response;
    }
 
-
-   public function create(ServerRequestInterface $request)
+   public function create(ServerRequestInterface $request): ResponseInterface
    {
-
       $data = $request->getParsedBody();
-
       $selectedType = $this->typeModel->find((int)$data['product_type'])->toArray();
-
       $productTypeClass = "App\\ProductTypes\\" . ucfirst(strtolower($selectedType['name']));
-
-      $response = new Response();
 
       if (class_exists($productTypeClass)) {
          $productTypeInstance = new $productTypeClass();
@@ -85,17 +76,14 @@ class ProductController
             'amount' => $processedData[strtolower($selectedType['attribute_value'])]
          ]);
 
-         Logger::getInstance()->log(Logger::INFO,'Processed Form Data: ' . print_r($processedData, true));
+         $this->logger->log(Logger::INFO, 'Processed Form Data: ' . print_r($processedData, true));
 
-         $response
+         return $this->response
             ->withHeader('Location', '/')
             ->withStatus(302);
-
-         return $response;
       }
 
-      $response = new Response();
-      $response->getBody()->write('Invalid product type selected.');
-      return $response;
+      $this->response->getBody()->write('Invalid product type selected.');
+      return $this->response;
    }
 }
