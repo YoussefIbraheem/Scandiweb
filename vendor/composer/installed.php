@@ -3,7 +3,7 @@
         'name' => 'scandiweb/products',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '70f4105a696b5d0dbb1455ba42f07d4ba73ab80b',
+        'reference' => '7d5046ab810bc8a16dca179a072814314cfe8256',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -16,6 +16,15 @@
             'reference' => 'bfb4fe148adbf78eff521199619b93a52ae3554b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../fakerphp/faker',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'guzzlehttp/psr7' => array(
+            'pretty_version' => '2.7.0',
+            'version' => '2.7.0.0',
+            'reference' => 'a70f5c95fb43bc83f07c9c948baa0dc1829bf201',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../guzzlehttp/psr7',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -119,6 +128,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '^1.0',
+                1 => '1.0',
             ),
         ),
         'psr/http-message' => array(
@@ -134,6 +144,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '^1.1 || ^2.0',
+                1 => '1.0',
             ),
         ),
         'psr/http-server-handler' => array(
@@ -163,10 +174,19 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'ralouphie/getallheaders' => array(
+            'pretty_version' => '3.0.3',
+            'version' => '3.0.3.0',
+            'reference' => '120b605dfeb996808c31b6477290a714d356e822',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../ralouphie/getallheaders',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'scandiweb/products' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '70f4105a696b5d0dbb1455ba42f07d4ba73ab80b',
+            'reference' => '7d5046ab810bc8a16dca179a072814314cfe8256',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
