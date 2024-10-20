@@ -3,7 +3,7 @@
         'name' => 'scandiweb/products',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '7d5046ab810bc8a16dca179a072814314cfe8256',
+        'reference' => '98fcbd51296602c1a8bfa8a55c388ee9e095e954',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -38,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'laminas/laminas-httphandlerrunner' => array(
-            'pretty_version' => '2.10.0',
-            'version' => '2.10.0.0',
-            'reference' => '35a0ba92e940a2f9533754f5a56187fa321f7693',
+            'pretty_version' => '2.11.0',
+            'version' => '2.11.0.0',
+            'reference' => 'c428d9f67f280d155637cbe2b7245b5188c8cdae',
             'type' => 'library',
             'install_path' => __DIR__ . '/../laminas/laminas-httphandlerrunner',
             'aliases' => array(),
@@ -127,8 +127,8 @@
         'psr/http-factory-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '^1.0',
-                1 => '1.0',
+                0 => '1.0',
+                1 => '^1.0',
             ),
         ),
         'psr/http-message' => array(
@@ -143,8 +143,8 @@
         'psr/http-message-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '^1.1 || ^2.0',
-                1 => '1.0',
+                0 => '1.0',
+                1 => '^1.1 || ^2.0',
             ),
         ),
         'psr/http-server-handler' => array(
@@ -186,7 +186,7 @@
         'scandiweb/products' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '7d5046ab810bc8a16dca179a072814314cfe8256',
+            'reference' => '98fcbd51296602c1a8bfa8a55c388ee9e095e954',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
