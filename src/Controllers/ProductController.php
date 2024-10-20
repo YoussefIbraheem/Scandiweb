@@ -17,31 +17,31 @@ use Psr\Http\Message\ServerRequestInterface;
 class ProductController
 {
 
-   private Product $product_model;
-   private Type $type_model;
+   private Product $productModel;
+   private Type $typeModel;
    private Response $response;
-   
+
    public function __construct()
    {
-      $this->product_model = new Product;
-      $this->type_model = new Type;
+      $this->productModel = new Product;
+      $this->typeModel = new Type;
       $this->response = new Response;
    }
 
 
    public function all(): ResponseInterface
    {
-      
 
-      $product_data = $this->product_model->getAll();
 
-      if (empty($product_data)) {
-         $this->product_model->seed();
-         $product_data = $this->product_model->getAll();
-         Logger::getInstance()->log("Seeded products count: " . count($product_data));
+      $productData = $this->productModel->getAll();
+
+      if (empty($productData)) {
+         $this->productModel->seed();
+         $productData = $this->productModel->getAll();
+         Logger::getInstance()->log("Seeded products count: " . count($productData));
       }
 
-      $html = (new ProductList($product_data))->render();
+      $html = (new ProductList($productData))->render();
       $this->response->getBody()->write($html);
 
       return $this->response;
@@ -50,19 +50,42 @@ class ProductController
 
    public function getProductsFormFields(): ResponseInterface
    {
-        $this->type_model = new Type;
-        $type_data = $this->type_model->getAll();
-        if(empty($type_data))
-        {
-         $this->type_model->seed();
-         $type_data = $this->type_model->getAll();
-         Logger::getInstance()->log("Seeded products count: " . count($type_data));
-        }
-        $html = (new ProductForm($type_data))->render();
-        $this->response->getBody()->write($html);
-        return $this->response;
-    }
+      $this->typeModel = new Type;
+      $typeData = $this->typeModel->getAll();
+      if (empty($typeData)) {
+         $this->typeModel->seed();
+         $typeData = $this->typeModel->getAll();
+         Logger::getInstance()->log("Seeded products count: " . count($typeData));
+      }
+      $html = (new ProductForm($typeData))->render();
+      $this->response->getBody()->write($html);
+      return $this->response;
+   }
 
 
+   public function create(ServerRequestInterface $request): ResponseInterface
+   {
 
+      $data = $request->getParsedBody();
+
+      $selectedType = $this->typeModel->find((int)$data['product_type']);
+
+      $productTypeClass = "App\\ProductTypes\\" . ucfirst(strtolower($selectedType->toArray()['name']));
+
+      if (class_exists($productTypeClass)) {
+         $productTypeInstance = new $productTypeClass();
+         $processedData = $productTypeInstance->processData($data);
+
+         Logger::getInstance()->log('Processed Form Data: ' . print_r($processedData, true));
+
+         $response = new Response();
+         $response->getBody()->write('Processed Data: ' . json_encode($processedData));
+
+         return $response;
+      }
+
+      $response = new Response();
+      $response->getBody()->write('Invalid product type selected.');
+      return $response;
+   }
 }

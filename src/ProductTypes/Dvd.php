@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\ProductTypes;
 
 use App\ProductType;
 
-class DVD implements ProductType
+class Dvd implements ProductType
 {
     public function processData(array $data): array
     {
