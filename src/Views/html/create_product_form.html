@@ -1,0 +1,178 @@
+{% extends "base.html" %} {% block title %} Add New Product {% endblock %} {%
+block content %}
+
+<style>
+  #productForm .required:after {
+    content: " *";
+    color: red;
+    font-weight: 100;
+  }
+</style>
+
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Add New Product</h4>
+    </div>
+    <div class="card-body">
+      <form id="productForm" action="create" method="POST">
+        <!-- SKU -->
+        <div class="mb-3">
+          <label for="sku" class="form-label required">SKU</label>
+          <input
+            type="text"
+            id="sku"
+            name="sku"
+            class="form-control"
+            placeholder="Enter product SKU"
+            required
+          />
+        </div>
+
+        <!-- Name -->
+        <div class="mb-3">
+          <label for="name" class="form-label required">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-control"
+            placeholder="Enter product name"
+            required
+          />
+        </div>
+
+        <!-- Price -->
+        <div class="mb-3">
+          <label for="price" class="form-label required">Price ($)</label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            class="form-control"
+            placeholder="Enter product price"
+            step="0.01"
+            required
+          />
+        </div>
+
+        <!-- Product Type -->
+        <div class="mb-3">
+          <label for="productType" class="form-label required"
+            >Product Type</label
+          >
+          
+          <select
+            id="productType"
+            name="product_type"
+            class="form-select"
+            required
+          >
+            <option value="" selected hidden disabled>Select Type</option>
+            {% for type in data %}
+                 <option value="{{ type['id'] }}" data-target="{{ type['name'] }}Fields">{{ type['name'] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Specific Fields (Initially Hidden) -->
+
+        <!--Book data form-->
+        <div
+          id="BookFields"
+          class="typeFields mb-3"
+          data-type="book"
+          style="display: none"
+        >
+          <label for="weight" class="form-label required">Weight (kg)</label>
+          <input
+            type="text"
+            id="weight"
+            name="weight"
+            class="form-control"
+            placeholder="Enter book weight"
+          />
+        </div>
+        <!-- DVD data form-->
+        <div
+          id="DVDFields"
+          class="typeFields mb-3"
+          data-type="dvd"
+          style="display: none"
+        >
+          <label for="size" class="form-label required">Size (MB)</label>
+          <input
+            type="text"
+            id="size"
+            name="size"
+            class="form-control"
+            placeholder="Enter DVD size"
+          />
+        </div>
+        <!-- Furniture data form-->
+        <div
+          id="FurnitureFields"
+          class="typeFields mb-3"
+          data-type="furniture"
+          style="display: none"
+        >
+          <label for="height" class="form-label required">Height (cm)</label>
+          <input
+            type="text"
+            id="height"
+            name="height"
+            class="form-control mb-2"
+            placeholder="Enter height"
+          />
+          <label for="width" class="form-label required">Width (cm)</label>
+          <input
+            type="text"
+            id="width"
+            name="width"
+            class="form-control mb-2"
+            placeholder="Enter width"
+          />
+          <label for="length" class="form-label required">Length (cm)</label>
+          <input
+            type="text"
+            id="length"
+            name="length"
+            class="form-control"
+            placeholder="Enter length"
+          />
+        </div>
+
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"
+></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    // Hide all fields initially
+    $(".typeFields").hide();
+    $(".typeFields input").prop("required", false);
+
+    // Attach event listener for product type change
+    $("#productType").change(function () {
+      // Hide all specific fields
+      $(".typeFields").hide();
+      $(".typeFields").hide().find("input").prop("required", false);
+
+      // Get the target fields via data attribute and show them
+      let selectedType = $(this).find("option:selected").data("target");
+      let targetFields = $("#" + selectedType);
+      targetFields.show();
+      targetFields.find("input").prop("required", true);
+    });
+  });
+</script>
+
+{% endblock %}

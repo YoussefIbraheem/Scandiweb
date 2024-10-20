@@ -5,33 +5,85 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Logger;
-use App\Models\Type;
-use Twig\Environment;
 use App\Models\Product;
+use App\Models\Type;
+use App\Views\ProductForm;
 use App\Views\ProductList;
 use Laminas\Diactoros\Response;
-use Twig\Loader\FilesystemLoader;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ProductController
 {
-   public function all(ServerRequestInterface $request): ResponseInterface
+   private Product $productModel;
+   private Type $typeModel;
+   private Logger $logger;
+   private Response $response;
+
+   public function __construct(Product $productModel, Type $typeModel, Logger $logger, Response $response)
    {
-      $response = new Response;
+      $this->productModel = $productModel;
+      $this->typeModel = $typeModel;
+      $this->logger = $logger::getInstance();
+      $this->response = $response;
+   }
 
-      $product_model = new Product;
-      $product_data = $product_model->getAll();
+   public function all(): ResponseInterface
+   {
+      $productData = $this->productModel->getAll();
 
-      if (empty($product_data)) {
-         $product_model->seed();
-         $product_data = $product_model->getAll();
-         Logger::getInstance()->log("Seeded products count: " . count($product_data));
+      if (empty($productData)) {
+         $this->productModel->seed();
+         $productData = $this->productModel->getAll();
+         $this->logger->info("Seeded products count: " . count($productData));
       }
 
-      $html = (new ProductList($product_data))->render();
-      $response->getBody()->write($html);
+      $html = (new ProductList($productData))->render();
+      $this->response->getBody()->write($html);
 
-      return $response;
+      return $this->response;
+   }
+
+   public function getProductsFormFields(): ResponseInterface
+   {
+      $typeData = $this->typeModel->getAll();
+      if (empty($typeData)) {
+         $this->typeModel->seed();
+         $typeData = $this->typeModel->getAll();
+         $this->logger->info("Seeded product types count: " . count($typeData));
+      }
+
+      $html = (new ProductForm($typeData))->render();
+      $this->response->getBody()->write($html);
+      return $this->response;
+   }
+
+   public function create(ServerRequestInterface $request): ResponseInterface
+   {
+      $data = $request->getParsedBody();
+      $selectedType = $this->typeModel->find((int)$data['product_type'])->toArray();
+      $productTypeClass = "App\\ProductTypes\\" . ucfirst(strtolower($selectedType['name']));
+
+      if (class_exists($productTypeClass)) {
+         $productTypeInstance = new $productTypeClass();
+         $processedData = $productTypeInstance->processData($data);
+
+         $this->productModel->create([
+            'sku' => $processedData['sku'],
+            'name' => $processedData['name'],
+            'price' => $processedData['price'],
+            'type_id' => $processedData['product_type'],
+            'amount' => $processedData[strtolower($selectedType['attribute_value'])]
+         ]);
+
+         $this->logger->info('Processed Form Data: ' . print_r($processedData, true));
+
+         return $this->response
+            ->withHeader('Location', '/Scandiweb')
+            ->withStatus(302);
+      }
+
+      $this->response->getBody()->write('Invalid product type selected.');
+      return $this->response;
    }
 }

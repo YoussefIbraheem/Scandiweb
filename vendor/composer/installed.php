@@ -3,7 +3,7 @@
         'name' => 'scandiweb/products',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '70f4105a696b5d0dbb1455ba42f07d4ba73ab80b',
+        'reference' => 'e169950ad8c97bab822909a36d028677b29c190b',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -19,6 +19,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'guzzlehttp/psr7' => array(
+            'pretty_version' => '2.7.0',
+            'version' => '2.7.0.0',
+            'reference' => 'a70f5c95fb43bc83f07c9c948baa0dc1829bf201',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../guzzlehttp/psr7',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'laminas/laminas-diactoros' => array(
             'pretty_version' => '3.5.0',
             'version' => '3.5.0.0',
@@ -29,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'laminas/laminas-httphandlerrunner' => array(
-            'pretty_version' => '2.10.0',
-            'version' => '2.10.0.0',
-            'reference' => '35a0ba92e940a2f9533754f5a56187fa321f7693',
+            'pretty_version' => '2.11.0',
+            'version' => '2.11.0.0',
+            'reference' => 'c428d9f67f280d155637cbe2b7245b5188c8cdae',
             'type' => 'library',
             'install_path' => __DIR__ . '/../laminas/laminas-httphandlerrunner',
             'aliases' => array(),
@@ -118,7 +127,8 @@
         'psr/http-factory-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '^1.0',
+                0 => '1.0',
+                1 => '^1.0',
             ),
         ),
         'psr/http-message' => array(
@@ -133,7 +143,8 @@
         'psr/http-message-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '^1.1 || ^2.0',
+                0 => '1.0',
+                1 => '^1.1 || ^2.0',
             ),
         ),
         'psr/http-server-handler' => array(
@@ -154,6 +165,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'psr/log' => array(
+            'pretty_version' => '3.0.2',
+            'version' => '3.0.2.0',
+            'reference' => 'f16e1d5863e37f8d8c2a01719f5b34baa2b714d3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../psr/log',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'psr/simple-cache' => array(
             'pretty_version' => '1.0.1',
             'version' => '1.0.1.0',
@@ -163,10 +183,19 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'ralouphie/getallheaders' => array(
+            'pretty_version' => '3.0.3',
+            'version' => '3.0.3.0',
+            'reference' => '120b605dfeb996808c31b6477290a714d356e822',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../ralouphie/getallheaders',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'scandiweb/products' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '70f4105a696b5d0dbb1455ba42f07d4ba73ab80b',
+            'reference' => 'e169950ad8c97bab822909a36d028677b29c190b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

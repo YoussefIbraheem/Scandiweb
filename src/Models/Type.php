@@ -11,18 +11,29 @@ class Type extends Model
     protected static $table = 'types';
     private int $id;
     private string $name;
-    private string $attribute_value;
-    private string $measure_unit;
+    private string $attributeValue;
+    private string $measureUnit;
 
     public static function fromArray(array $dbRecord): Model
     {
         $type = new self();
         $type->id = $dbRecord['id'];
         $type->name = $dbRecord['name'];
-        $type->attribute_value = $dbRecord['attribute_value'];
-        $type->measure_unit = $dbRecord['measure_unit'];
+        $type->attributeValue = $dbRecord['attribute_value'];
+        $type->measureUnit = $dbRecord['measure_unit'];
 
         return $type;
+    }
+
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'attribute_value' => $this->attributeValue,
+            'measure_unit' => $this->measureUnit,
+        ];
     }
 
     public static function create(array $data)
@@ -54,8 +65,6 @@ class Type extends Model
                 'measure_unit' => $type['measure_unit']
             ]);
         }
-        Logger::getInstance()->log("Table types has been seeded!");
+        Logger::getInstance()->info("Table types has been seeded!");
     }
 }
-
-

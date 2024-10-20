@@ -24,6 +24,8 @@ abstract class Model
     // This method should be implemented by child models
     public static abstract function fromArray(array $dbRecord): Model;
 
+    public abstract function toArray(): array;
+
     public static function getAll(): array
     {
         $db = Database::getInstance()->getConnection();
