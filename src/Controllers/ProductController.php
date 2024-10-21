@@ -79,7 +79,7 @@ class ProductController
          $this->logger->info('Processed Form Data: ' . print_r($processedData, true));
 
          return $this->response
-            ->withHeader('Location', '/Scandiweb')
+            ->withHeader('Location', '/')
             ->withStatus(302);
       }
 

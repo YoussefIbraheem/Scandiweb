@@ -1,15 +1,28 @@
 {% extends "base.html" %} 
 
-
 {% block title %} Product List {% endblock %} 
 
 {% block content %}
 
 <div class="container mt-4">
-  <div class="row">
-    {% for product in data %}
-    <div class="col-md-3 mb-4">{{ product.render()|raw }}</div>
-    {% endfor %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1>Product List</h1>
+      <div>
+          <!-- Create Button -->
+          {{ baseUrl }}create
+          <a href="{{ baseUrl }}create" class="btn btn-primary">Create</a>
+          <!-- Delete Button -->
+          <button id="mass-delete-btn" class="btn btn-danger" form="delete-form">Mass Delete</button>
+      </div>
+  </div>
+
+  <div class="container mt-4">
+    <div class="row">
+      {% for product in data %}
+      <div class="col-md-3 mb-4">{{ product.render()|raw }}</div>
+      {% endfor %}
+    </div>
   </div>
 </div>
+
 {% endblock %}

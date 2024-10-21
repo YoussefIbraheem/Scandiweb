@@ -7,7 +7,7 @@ class Card extends Layout
   private array $data;
 
 
-  public function __construct($id, $name, $sku, $price = 0, $amount, $type_id)
+  public function __construct($id, $name, $sku, $price = 0, $amount, $typeName , $attributeValue , $measureUnit)
   {
     $this->data = [
       'id' => $id,
@@ -15,7 +15,9 @@ class Card extends Layout
       'sku' => $sku,
       'price' => $price,
       'amount' => $amount,
-      'type_id' => $type_id
+      'typeName' => $typeName,
+      'attributeValue' => $attributeValue,
+      'measureUnit' => $measureUnit
     ];
   }
 
