@@ -2,7 +2,7 @@
 block content %}
 
 <style>
-  #productForm .required:after {
+  #product_form .required:after {
     content: " *";
     color: red;
     font-weight: 100;
@@ -15,7 +15,7 @@ block content %}
       <h4 class="mb-0">Add New Product</h4>
     </div>
     <div class="card-body">
-      <form id="productForm" action="add-product" method="POST">
+      <form id="product_form" action="add-product" method="POST">
         <!-- SKU -->
         <div class="mb-3">
           <label for="sku" class="form-label required">SKU</label>
@@ -164,8 +164,9 @@ block content %}
           >
         </div>
 
-        <div class="d-grid gap-2">
-          <button type="submit" class="btn btn-success">Submit</button>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-success">Save</button>
+          <a href="{{ baseUrl }}" class="btn btn-danger">Cancel</a>
         </div>
       </form>
     </div>
@@ -196,7 +197,7 @@ block content %}
     });
 
     // Form validation on submit
-    $("#productForm").submit(function (event) {
+    $("#product_form").submit(function (event) {
       event.preventDefault(); // Prevent form from submitting
 
       let isValid = true;
