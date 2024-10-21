@@ -25,8 +25,8 @@ block content %}
             name="sku"
             class="form-control"
             placeholder="Enter product SKU"
-            required
           />
+          <span class="text-danger validation-message" id="skuError"></span>
         </div>
 
         <!-- Name -->
@@ -38,8 +38,8 @@ block content %}
             name="name"
             class="form-control"
             placeholder="Enter product name"
-            required
           />
+          <span class="text-danger validation-message" id="nameError"></span>
         </div>
 
         <!-- Price -->
@@ -52,8 +52,8 @@ block content %}
             class="form-control"
             placeholder="Enter product price"
             step="0.01"
-            required
           />
+          <span class="text-danger validation-message" id="priceError"></span>
         </div>
 
         <!-- Product Type -->
@@ -61,23 +61,27 @@ block content %}
           <label for="productType" class="form-label required"
             >Product Type</label
           >
-          
-          <select
-            id="productType"
-            name="product_type"
-            class="form-select"
-            required
-          >
+
+          <select id="productType" name="product_type" class="form-select">
             <option value="" selected hidden disabled>Select Type</option>
             {% for type in data %}
-                 <option value="{{ type['id'] }}" data-target="{{ type['name'] }}Fields">{{ type['name'] }}</option>
+            <option
+              value="{{ type['id'] }}"
+              data-target="{{ type['name'] }}Fields"
+            >
+              {{ type['name'] }}
+            </option>
             {% endfor %}
           </select>
+          <span
+            class="text-danger validation-message"
+            id="productTypeError"
+          ></span>
         </div>
 
         <!-- Specific Fields (Initially Hidden) -->
 
-        <!--Book data form-->
+        <!-- Book data form-->
         <div
           id="BookFields"
           class="typeFields mb-3"
@@ -86,13 +90,18 @@ block content %}
         >
           <label for="weight" class="form-label required">Weight (kg)</label>
           <input
-            type="text"
+            type="number"
             id="weight"
             name="weight"
             class="form-control"
             placeholder="Enter book weight"
           />
+          <p class="text-danger validation-message" id="weightError"></p>
+          <small class="text-muted"
+            >"Please Provide the Book weight in Kilograms (KG)."</small
+          >
         </div>
+
         <!-- DVD data form-->
         <div
           id="DVDFields"
@@ -102,13 +111,18 @@ block content %}
         >
           <label for="size" class="form-label required">Size (MB)</label>
           <input
-            type="text"
+            type="number"
             id="size"
             name="size"
             class="form-control"
             placeholder="Enter DVD size"
           />
+          <small class="text-muted"
+            >"Please Provide the DVD size in Megabytes (MB)."</small
+          >
+          <p class="text-danger validation-message" id="sizeError"></p>
         </div>
+
         <!-- Furniture data form-->
         <div
           id="FurnitureFields"
@@ -118,28 +132,36 @@ block content %}
         >
           <label for="height" class="form-label required">Height (cm)</label>
           <input
-            type="text"
+            type="number"
             id="height"
             name="height"
             class="form-control mb-2"
             placeholder="Enter height"
           />
-          <label for="width" class="form-label required">Width (cm)</label>
+          <p class="text-danger validation-message" id="heightError"></p>
+
+          <p for="width" class="form-label required">Width (cm)</p>
           <input
-            type="text"
+            type="number"
             id="width"
             name="width"
             class="form-control mb-2"
             placeholder="Enter width"
           />
+          <p class="text-danger validation-message" id="widthError"></p>
           <label for="length" class="form-label required">Length (cm)</label>
+
           <input
-            type="text"
+            type="number"
             id="length"
             name="length"
             class="form-control"
             placeholder="Enter length"
           />
+          <p class="text-danger validation-message" id="lengthError"></p>
+          <small class="text-muted"
+            >Please provide dimensions in HxWxL each in centimeters (CM).</small
+          >
         </div>
 
         <div class="d-grid gap-2">
@@ -164,14 +186,162 @@ block content %}
     $("#productType").change(function () {
       // Hide all specific fields
       $(".typeFields").hide();
-      $(".typeFields").hide().find("input").prop("required", false);
+      //$(".typeFields input").prop("required", false);
 
       // Get the target fields via data attribute and show them
       let selectedType = $(this).find("option:selected").data("target");
       let targetFields = $("#" + selectedType);
       targetFields.show();
-      targetFields.find("input").prop("required", true);
+      //targetFields.find("input").prop("required", true);
     });
+
+    // Form validation on submit
+    $("#productForm").submit(function (event) {
+      event.preventDefault(); // Prevent form from submitting
+
+      let isValid = true;
+
+      // Validate SKU
+      const sku = $("#sku").val().trim();
+      if (!sku) {
+        $("#skuError").text("SKU is required");
+        isValid = false;
+      } else {
+        $("#skuError").text(""); // Clear the error message
+      }
+
+      // Validate Name
+      const name = $("#name").val().trim();
+      if (!name) {
+        $("#nameError").text("Name is required");
+        isValid = false;
+      } else {
+        $("#nameError").text("");
+      }
+
+      // Validate Price
+      const price = $("#price").val().trim();
+      if (!price || isNaN(price) || price <= 0) {
+        $("#priceError").text("Valid price is required");
+        isValid = false;
+      } else {
+        $("#priceError").text("");
+      }
+
+      // Validate Product Type Specific Fields
+      let selectedType = $("#productType")
+        .find("option:selected")
+        .data("target");
+
+      console.log(selectedType);
+
+      if (selectedType == undefined) {
+        $("#productTypeError").text("valid product type is required");
+        isValid = false;
+      } else {
+        $("#productTypeError").text("");
+      }
+
+      if (selectedType === "BookFields") {
+        const weight = $("#weight").val().trim();
+        if (!weight || isNaN(weight) || weight <= 0) {
+          $("#weightError").text("Valid weight is required for books");
+          isValid = false;
+        } else {
+          $("#weightError").text("");
+        }
+      }
+
+      if (selectedType === "DVDFields") {
+        const size = $("#size").val().trim();
+        if (!size || isNaN(size) || size <= 0) {
+          $("#sizeError").text("Valid size is required for DVDs");
+          isValid = false;
+        } else {
+          $("#sizeError").text("");
+        }
+      }
+
+      if (selectedType === "FurnitureFields") {
+        const height = $("#height").val().trim();
+        const width = $("#width").val().trim();
+        const length = $("#length").val().trim();
+
+        if (!height || isNaN(height) || height <= 0) {
+          $("#heightError").text("Valid height is required for furniture");
+          isValid = false;
+        } else {
+          $("#heightError").text("");
+        }
+
+        if (!width || isNaN(width) || width <= 0) {
+          $("#widthError").text("Valid width is required for furniture");
+          isValid = false;
+        } else {
+          $("#widthError").text("");
+        }
+
+        if (!length || isNaN(length) || length <= 0) {
+          $("#lengthError").text("Valid length is required for furniture");
+          isValid = false;
+        } else {
+          $("#lengthError").text("");
+        }
+      }
+
+      // If the form is valid, you can proceed with form submission
+      if (isValid) {
+        this.submit(); // Submit the form if validation passes
+      }
+    });
+
+    // Instant validation on input field blur
+    $("#sku, #name, #price, #weight, #size, #height, #width, #length").blur(
+      function () {
+        validateField($(this));
+      }
+    );
+
+    function validateField(input) {
+      const fieldId = input.attr("id");
+      const value = input.val().trim();
+      let errorMessage = "";
+
+      if (fieldId === "sku" && !value) {
+        errorMessage = "SKU is required";
+      }
+
+      if (fieldId === "name" && !value) {
+        errorMessage = "Name is required";
+      }
+
+      if (fieldId === "price" && (!value || isNaN(value) || value <= 0)) {
+        errorMessage = "Valid price is required";
+      }
+
+      if (fieldId === "weight" && (!value || isNaN(value) || value <= 0)) {
+        errorMessage = "Valid weight is required for books";
+      }
+
+      if (fieldId === "size" && (!value || isNaN(value) || value <= 0)) {
+        errorMessage = "Valid size is required for DVDs";
+      }
+
+      if (fieldId === "height" && (!value || isNaN(value) || value <= 0)) {
+        errorMessage = "Valid height is required for furniture";
+      }
+
+      if (fieldId === "width" && (!value || isNaN(value) || value <= 0)) {
+        errorMessage = "Valid width is required for furniture";
+      }
+
+      if (fieldId === "length" && (!value || isNaN(value) || value <= 0)) {
+        errorMessage = "Valid length is required for furniture";
+      }
+
+      // Set the error message or clear it
+      $("#" + fieldId + "Error").text(errorMessage);
+    }
   });
 </script>
 
