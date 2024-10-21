@@ -54,6 +54,14 @@ abstract class Model
         return null;
     }
 
+    public function deleteByIds(array $ids)
+{
+   $placeholders = implode(',', array_fill(0, count($ids), '?'));
+   $sql = "DELETE FROM products WHERE id IN ($placeholders)";
+   $stmt = $this->db->prepare($sql);
+   $stmt->execute($ids);
+}
+
     public function hasMany(string $relatedModel, string $foreignKey, string $localKey = 'id')
     {
         $related = new $relatedModel;

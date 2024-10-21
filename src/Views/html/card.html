@@ -1,9 +1,30 @@
+<div
+  class="card"
+  style="
+    position: relative;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  "
+>
+  <!-- Checkbox for mass delete -->
+  <input
+    type="checkbox"
+    class="delete-checkbox"
+    style="position: absolute; top: 10px; left: 10px"
+    id="checkbox_{{ data['id'] }}"
+    data-id="{{ data['id'] }}">
+ 
+  <div class="card-body" style="text-align: center">
+    <h5 class="card-title" style="font-size: 16px; margin-bottom: 10px">
+      {{ data['sku'] }}
+    </h5>
+    <p class="card-text" style="margin-bottom: 10px">{{ data['name'] }}</p>
+    <p class="card-text" style="margin-bottom: 10px">{{ data['price'] }} $</p>
 
-<div class='card' style='position:relative; width: 100%;'>
-    <input type='checkbox' class='form-check-input' style='position: absolute; top: 10px; left: 10px;' id='checkbox_{{ data['id'] }}'>
-    <div class='card-body'>
-        <h5 class='card-title'>{{ data['name'] }}</h5>
-        <p class='card-text'>{{ data['sku'] }}</p>
-        <a href='#' class='btn btn-primary'>{{ data['price'] }}$</a>
-    </div>
+    <p class="card-text">
+      {{ data['attributeValue'] }} <strong>{{ data['amount'] }}</strong> {{ data['measureUnit'] }}
+    </p>
+  </div>
 </div>

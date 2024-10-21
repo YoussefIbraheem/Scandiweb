@@ -7,25 +7,21 @@ use League\Container\Container;
 use League\Route\Strategy\ApplicationStrategy;
 use Laminas\Diactoros\Response;
 
-// Initialize the container
 $container = new Container();
 
-// Enable auto-wiring (reflection container)
 $container->delegate(new League\Container\ReflectionContainer());
 
-// Add service providers (like HttpServiceProvider)
 $container->addServiceProvider(new App\Providers\HttpServiceProvider());
 
-// Set up the routing strategy with the container
 $strategy = (new ApplicationStrategy())->setContainer($container);
 
-// Initialize the router with the strategy
-$router = (new Router())->setStrategy($strategy);
+$router = new Router;
 
-// Define routes, now resolving controllers via the container
+$router->setStrategy($strategy);
+
 $router->get('/', [ProductController::class, 'all']);
-$router->get('/create', [ProductController::class, 'getProductsFormFields']);
-$router->post('/create', [ProductController::class, 'create']);
+$router->get('/add-product', [ProductController::class, 'getProductsFormFields']);
+$router->post('/add-product', [ProductController::class, 'create']);
+$router->post('/delete-selected',[ProductController::class,'deleteSelected']);
 
-// Return the configured router
 return $router;
