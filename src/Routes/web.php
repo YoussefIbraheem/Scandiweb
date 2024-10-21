@@ -20,7 +20,8 @@ $router = new Router;
 $router->setStrategy($strategy);
 
 $router->get('/', [ProductController::class, 'all']);
-$router->get('/create', [ProductController::class, 'getProductsFormFields']);
-$router->post('/create', [ProductController::class, 'create']);
+$router->get('/add-product', [ProductController::class, 'getProductsFormFields']);
+$router->post('/add-product', [ProductController::class, 'create']);
+$router->post('/delete-selected',[ProductController::class,'deleteSelected']);
 
 return $router;

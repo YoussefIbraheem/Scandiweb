@@ -2,7 +2,9 @@
 
 namespace App\Session;
 
-class Session
+use App\Singleton;
+
+class Session extends Singleton
 {
     public function __construct()
     {

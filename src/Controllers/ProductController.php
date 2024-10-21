@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Logger;
 use App\Models\Product;
 use App\Models\Type;
+use App\Session\Session;
 use App\Views\ProductForm;
 use App\Views\ProductList;
 use Laminas\Diactoros\Response;
@@ -19,13 +20,15 @@ class ProductController
    private Type $typeModel;
    private Logger $logger;
    private Response $response;
+   private Session $session;
 
-   public function __construct(Product $productModel, Type $typeModel, Logger $logger, Response $response)
+   public function __construct(Product $productModel, Type $typeModel, Logger $logger, Response $response, Session $session)
    {
       $this->productModel = $productModel;
       $this->typeModel = $typeModel;
       $this->logger = $logger::getInstance();
       $this->response = $response;
+      $this->session = $session::getInstance();
    }
 
    public function all(): ResponseInterface
@@ -86,4 +89,24 @@ class ProductController
       $this->response->getBody()->write('Invalid product type selected.');
       return $this->response;
    }
+
+
+   public function deleteSelected(ServerRequestInterface $request): ResponseInterface
+   {
+      $data = $request->getParsedBody();
+      $productIds = $data['ids'] ?? [];
+   
+      if (!empty($productIds)) {
+         $this->productModel->deleteByIds($productIds);
+         $this->logger->info('Deleted Products: ' . implode(', ', $productIds));
+   
+         return $this->response
+            ->withHeader('Location', '/')
+            ->withStatus(302);
+      }
+   
+      $this->response->getBody()->write('No products selected for deletion.');
+      return $this->response;
+   }
+
 }
