@@ -14,7 +14,7 @@
 <div class="container mt-5">
   <div class="card shadow-sm">
     <div class="card-header bg-primary text-white">
-      <h4 class="mb-0">Add New Product</h4>
+      <h1 class="mb-0">Product Add</h1>
     </div>
     <div class="card-body">
       <form id="product_form" action="add-product" method="POST">
@@ -69,7 +69,7 @@
 
           <select id="productType" name="product_type" class="form-select">
             <option value="" selected hidden disabled>Select Type</option>
-            {% for type in data %}
+            {% for type in data['types'] %}
             <option
               value="{{ type['id'] }}"
               data-target="{{ type['name'] }}Fields"
