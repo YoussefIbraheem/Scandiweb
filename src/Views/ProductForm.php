@@ -19,7 +19,8 @@ class ProductForm extends Layout
 
     public function render()
     {
-        $viewData = array_merge($this->data, [
+        $viewData = array_merge([
+            'types' => $this->data,
             'errorMessage' => $this->errorMessage,
             'inputData' => $this->inputData,
         ]);
