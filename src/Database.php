@@ -17,10 +17,10 @@ class Database extends Singleton
 
     public function __construct()
     {
-        $this->host = $_ENV['DB_HOST'] ?? 'localhost';
-        $this->dbName = $_ENV['DB_NAME'] ?? 'default_db';
-        $this->username = $_ENV['DB_USER'] ?? 'root';
-        $this->password = $_ENV['DB_PASSWORD'] ?? '';
+        $this->host = $_ENV['DB_HOST'];
+        $this->dbName = $_ENV['DB_NAME'];
+        $this->username = $_ENV['DB_USER'];
+        $this->password = $_ENV['DB_PASSWORD'];
 
         $this->connect();
     }

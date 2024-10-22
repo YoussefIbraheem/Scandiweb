@@ -33,12 +33,6 @@ class ProductController
    {
       $productData = $this->productModel->getAll();
 
-      if (empty($productData)) {
-         $this->productModel->seed();
-         $productData = $this->productModel->getAll();
-         $this->logger->info("Seeded products count: " . count($productData));
-      }
-
       $html = (new ProductList($productData))->render();
       $this->response->getBody()->write($html);
 
@@ -48,14 +42,10 @@ class ProductController
    public function getProductsFormFields(): ResponseInterface
    {
       $typeData = $this->typeModel->getAll();
-      if (empty($typeData)) {
-         $this->typeModel->seed();
-         $typeData = $this->typeModel->getAll();
-         $this->logger->info("Seeded product types count: " . count($typeData));
-      }
-
+      
       $html = (new ProductForm($typeData))->render();
       $this->response->getBody()->write($html);
+      
       return $this->response;
    }
 
