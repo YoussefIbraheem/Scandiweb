@@ -7,7 +7,6 @@ namespace App\Controllers;
 use App\Logger;
 use App\Models\Product;
 use App\Models\Type;
-use App\Session\Session;
 use App\Views\ProductForm;
 use App\Views\ProductList;
 use Laminas\Diactoros\Response;
@@ -20,15 +19,13 @@ class ProductController
    private Type $typeModel;
    private Logger $logger;
    private Response $response;
-   private Session $session;
 
-   public function __construct(Product $productModel, Type $typeModel, Logger $logger, Response $response, Session $session)
+   public function __construct(Product $productModel, Type $typeModel, Logger $logger, Response $response)
    {
       $this->productModel = $productModel;
       $this->typeModel = $typeModel;
       $this->logger = $logger::getInstance();
       $this->response = $response;
-      $this->session = $session::getInstance();
    }
 
    public function all(): ResponseInterface
