@@ -12,6 +12,7 @@ class Database extends Singleton
     private $dbName;
     private $username;
     private $password;
+    private $environment;
 
     private $connection;
 
@@ -21,6 +22,7 @@ class Database extends Singleton
         $this->dbName = $_ENV['DB_NAME'];
         $this->username = $_ENV['DB_USER'];
         $this->password = $_ENV['DB_PASSWORD'];
+        $this->environment = $_ENV['ENVIRONMENT'];
 
         $this->connect();
     }
@@ -34,17 +36,20 @@ class Database extends Singleton
             $this->connection = new PDO("mysql:host={$this->host}", $this->username, $this->password);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // Check if the database exists
-            $result = $this->connection->query("SHOW DATABASES LIKE '{$this->dbName}'");
 
-            // If the database doesn't exist, create it
-            if ($result->rowCount() === 0) {
-                $sql = file_get_contents('../database/scandiweb-db.sql');
-                if ($sql === false) {
-                    throw new PDOException("SQL file not found.");
+            if ($this->environment === 'local') {
+                // Check if the database exists
+                $result = $this->connection->query("SHOW DATABASES LIKE '{$this->dbName}'");
+
+                // If the database doesn't exist, create it
+                if ($result->rowCount() === 0) {
+                    $sql = file_get_contents('../database/scandiweb-db.sql');
+                    if ($sql === false) {
+                        throw new PDOException("SQL file not found.");
+                    }
+                    $this->connection->exec($sql);
+                    $logger->info("Database '{$this->dbName}' has been created.");
                 }
-                $this->connection->exec($sql);
-                $logger->info("Database '{$this->dbName}' has been created.");
             }
 
             // Connect to the newly created or existing database
