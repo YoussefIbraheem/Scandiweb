@@ -10,7 +10,3 @@ class Book implements ProductType
         return $data;
     }
 }
-
-
-
-?>

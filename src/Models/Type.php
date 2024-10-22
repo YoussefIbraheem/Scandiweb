@@ -46,7 +46,7 @@ class Type extends Model
             'measure_unit' => $data['measure_unit']
         ]);
 
-        return $db->getConnection()->lastInsertId(); // Return the newly inserted product ID
+        return $db->getConnection()->lastInsertId();
     }
 
     public function products()

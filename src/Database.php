@@ -32,16 +32,14 @@ class Database extends Singleton
         $logger = Logger::getInstance();
 
         try {
-            // Attempt to connect to the server
             $this->connection = new PDO("mysql:host={$this->host}", $this->username, $this->password);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
             if ($this->environment === 'local') {
-                // Check if the database exists
+
                 $result = $this->connection->query("SHOW DATABASES LIKE '{$this->dbName}'");
 
-                // If the database doesn't exist, create it
                 if ($result->rowCount() === 0) {
                     $sql = file_get_contents('../database/scandiweb-db.sql');
                     if ($sql === false) {
@@ -52,12 +50,11 @@ class Database extends Singleton
                 }
             }
 
-            // Connect to the newly created or existing database
             $this->connection = new PDO("mysql:host={$this->host};dbname={$this->dbName}", $this->username, $this->password);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $logger->info("Connected to the database '{$this->dbName}'.");
         } catch (PDOException $e) {
-            // Log connection errors
+
             $logger->error("Database connection failed: " . $e->getMessage());
             throw new PDOException("Connection failed: " . $e->getMessage());
         } catch (Exception $e) {

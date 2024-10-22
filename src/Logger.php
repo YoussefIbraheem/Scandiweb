@@ -75,16 +75,13 @@ class Logger extends Singleton implements LoggerInterface
         @error_log($formattedMessage, 3, $this->logFilePath);
     }
 
-    // Interpolates context values into the message placeholders.
     private function interpolate(Stringable|string $message, array $context = []): string
     {
-        // Build a replacement array with braces around context keys.
         $replace = [];
         foreach ($context as $key => $value) {
             $replace['{' . $key . '}'] = $value;
         }
 
-        // Interpolate replacement values into the message and return.
         return strtr($message, $replace);
     }
 }

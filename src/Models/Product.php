@@ -54,7 +54,7 @@ class Product extends Model
             'type_id' => $data['type_id']
         ]);
 
-        return $db->getConnection()->lastInsertId(); // Return the newly inserted product ID
+        return $db->getConnection()->lastInsertId();
     }
 
     public function checkSkuExists($sku)
