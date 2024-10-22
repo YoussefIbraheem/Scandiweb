@@ -6,7 +6,6 @@ use App\Models\Product;
 use Laminas\Diactoros\Response;
 use League\Container\Container;
 use App\Providers\HttpServiceProvider;
-use App\Session\Session;
 use Laminas\Diactoros\ServerRequestFactory;
 use League\Route\Route;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,8 +28,6 @@ $container->addShared(Response::class, Response::class);
 
 $container->addShared(Route::class,Route::class);
 
-$container->addShared(Session::class,Session::getInstance());
-
 // Register the ProductController
 $container->addShared(App\Controllers\ProductController::class, function () use ($container) {
     return new App\Controllers\ProductController(
@@ -39,7 +36,6 @@ $container->addShared(App\Controllers\ProductController::class, function () use 
         $container->get(Logger::class),
         $container->get(Response::class),
         $container->get(Route::class),
-        $container->get(Session::class)
     );
 });
 
