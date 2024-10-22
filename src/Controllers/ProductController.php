@@ -12,6 +12,7 @@ use App\Views\ProductList;
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Twig\Environment;
 
 class ProductController
 {
@@ -68,6 +69,16 @@ class ProductController
          $productTypeInstance = new $productTypeClass();
          $processedData = $productTypeInstance->processData($data);
 
+         $skuExists = $this->productModel->checkSkuExists($processedData['sku']);
+
+         if ($skuExists) {
+            $errorMessage = "SKU already exists. Please use a unique SKU.";
+
+            $html = (new ProductForm($this->typeModel->getAll(), $errorMessage, $data))->render();
+            $this->response->getBody()->write($html);
+            return $this->response;
+         }
+
          $this->productModel->create([
             'sku' => $processedData['sku'],
             'name' => $processedData['name'],
@@ -92,18 +103,17 @@ class ProductController
    {
       $data = $request->getParsedBody();
       $productIds = $data['ids'] ?? [];
-   
+
       if (!empty($productIds)) {
          $this->productModel->deleteByIds($productIds);
          $this->logger->info('Deleted Products: ' . implode(', ', $productIds));
-   
+
          return $this->response
             ->withHeader('Location', '/')
             ->withStatus(302);
       }
-   
+
       $this->response->getBody()->write('No products selected for deletion.');
       return $this->response;
    }
-
 }
