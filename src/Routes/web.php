@@ -19,9 +19,12 @@ $router = new Router;
 
 $router->setStrategy($strategy);
 
+//routes
 $router->get('/', [ProductController::class, 'all']);
 $router->get('/add-product', [ProductController::class, 'getProductsFormFields']);
 $router->post('/add-product', [ProductController::class, 'create']);
 $router->post('/delete-selected',[ProductController::class,'deleteSelected']);
+//end routes
+
 
 return $router;
