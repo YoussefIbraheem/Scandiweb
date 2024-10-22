@@ -1,2 +1,4 @@
 # .gitignore
 /src/logs/errors.txt
+public/.well-known
+/.env
