@@ -1,11 +1,14 @@
 <?php
 
+use App\Commands\DatabaseSeeder;
 use App\Logger;
 use App\Models\Type;
 use App\Models\Product;
 use Laminas\Diactoros\Response;
 use League\Container\Container;
 use App\Providers\HttpServiceProvider;
+use App\Seeders\ProductSeeder;
+use App\Seeders\TypeSeeder;
 use Laminas\Diactoros\ServerRequestFactory;
 use League\Route\Route;
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,7 +29,17 @@ $container->addShared(Logger::class, Logger::getInstance());
 // Register response
 $container->addShared(Response::class, Response::class);
 
-$container->addShared(Route::class,Route::class);
+$container->addShared(Route::class, Route::class);
+
+//seeders
+$container->addShared(TypeSeeder::class, TypeSeeder::class)->addArgument(Type::class);
+$container->addShared(ProductSeeder::class, ProductSeeder::class)->addArgument(Product::class);
+$container->addShared(DatabaseSeeder::class, function () use ($container) {
+    return new DatabaseSeeder(
+        $container->get(TypeSeeder::class),
+        $container->get(ProductSeeder::class)
+    );
+});
 
 // Register the ProductController
 $container->addShared(App\Controllers\ProductController::class, function () use ($container) {

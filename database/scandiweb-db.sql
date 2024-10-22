@@ -9,7 +9,7 @@ CREATE TABLE `types` (
 );
 CREATE TABLE `products` (
     id INT NOT NULL AUTO_INCREMENT,
-    sku VARCHAR(255) NOT NULL,
+    sku VARCHAR(255) UNIQUE NOT NULL,
     name VARCHAR(255) NOT NULL,
     price FLOAT NOT NULL DEFAULT 0,
     amount VARCHAR(255),

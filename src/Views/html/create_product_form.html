@@ -1,5 +1,7 @@
-{% extends "base.html" %} {% block title %} Add New Product {% endblock %} {%
-block content %}
+{% extends "base.html" %} 
+{% block title %} Add New Product {% endblock %} 
+
+{% block content %}
 
 <style>
   #product_form .required:after {
@@ -27,6 +29,9 @@ block content %}
             placeholder="Enter product SKU"
           />
           <span class="text-danger validation-message" id="skuError"></span>
+          {% if data['errorMessage'] %}
+            <p class="text-danger validation-message">{{ data['errorMessage'] }}</p>
+          {% endif %}
         </div>
 
         <!-- Name -->

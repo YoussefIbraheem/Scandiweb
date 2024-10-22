@@ -57,6 +57,14 @@ class Product extends Model
         return $db->getConnection()->lastInsertId(); // Return the newly inserted product ID
     }
 
+    public function checkSkuExists($sku)
+    {
+        $sql = "SELECT COUNT(*) FROM products WHERE sku = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$sku]);
+        return $stmt->fetchColumn() > 0;
+    }
+
 
     public function type()
     {
