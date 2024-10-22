@@ -8,7 +8,7 @@ abstract class Layout
     {
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__.'/html');
         $twig = new \Twig\Environment($loader);
-        $twig->addGlobal('baseUrl','/');
+        $twig->addGlobal('baseUrl',$_ENV['BASE_PATH']);
         $template = $twig->load($template .'.html');
         return $template->render(['data' => $data]);
     }
