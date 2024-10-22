@@ -2,6 +2,8 @@
 
 namespace App\Session;
 
+use App\Singleton;
+
 class Session
 {
     public function __construct()

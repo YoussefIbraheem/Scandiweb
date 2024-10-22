@@ -15,7 +15,7 @@ class Product extends Model
     private string $name;
     private float $price;
     private string $amount;
-    private int $type_id;
+    private int $typeId;
 
     public static function fromArray(array $dbRecord): Model
     {
@@ -25,9 +25,21 @@ class Product extends Model
         $product->name = $dbRecord['name'];
         $product->price = $dbRecord['price'];
         $product->amount = $dbRecord['amount'];
-        $product->type_id = $dbRecord['type_id'];
+        $product->typeId = $dbRecord['type_id'];
 
         return $product;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'sku'  => $this->sku,
+            'name' => $this->name,
+            'price' => $this->price,
+            'amount' => $this->amount,
+            'type_id' => $this->typeId,
+        ];
     }
 
     public static function create(array $data)
@@ -45,6 +57,14 @@ class Product extends Model
         return $db->getConnection()->lastInsertId(); // Return the newly inserted product ID
     }
 
+    public function checkSkuExists($sku)
+    {
+        $sql = "SELECT COUNT(*) FROM products WHERE sku = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$sku]);
+        return $stmt->fetchColumn() > 0;
+    }
+
 
     public function type()
     {
@@ -54,10 +74,9 @@ class Product extends Model
     public static function seed()
     {
 
-        $types_empty = empty(Type::getAll());
+        $typesEmpty = empty(Type::getAll());
 
-        if($types_empty)
-        {
+        if ($typesEmpty) {
             Type::seed();
         }
 
@@ -73,6 +92,6 @@ class Product extends Model
             ]);
         };
 
-        Logger::getInstance()->log("Table products has been seeded!");
+        Logger::getInstance()->info("Table products has been seeded!");
     }
 }

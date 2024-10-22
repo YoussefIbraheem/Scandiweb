@@ -1,20 +1,27 @@
-<?php declare(strict_types=1);
+<?php
 
-use App\Views\Footer;
-use App\Views\Header;
+declare(strict_types=1);
+
 use Laminas\Diactoros\ServerRequestFactory;
+use Psr\Http\Message\ServerRequestInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+$dotenv->safeLoad();
+
+// Initialize the container
+$container = require_once __DIR__ . '/../src/Containers/container.php';
+
 $router = require_once __DIR__ . '/../src/Routes/web.php';
 
-$uri = '/Scandiweb';
-$_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], strlen($uri));
+require_once __DIR__ . '/../src/config.php';
 
-$request = ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
+
+
+$request = $container->get(ServerRequestInterface::class);
 
 $response = $router->dispatch($request);
 
 (new SapiEmitter())->emit($response);
-
